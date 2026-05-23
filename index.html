@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tuition Ledger Master</title>
-    <link rel="apple-touch-icon" href="https://i.ibb.co/xSTxHx6v/249e85c5-32e6-4e8a-87ab-cb94c1b686de.jpg"er="0">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/xSTxHx6v/249e85c5-32e6-4e8a-87ab-
+
+cb94c1b686de.jpg"er="0">
     
     <style>
         :root {
@@ -27,71 +29,163 @@
             --border: #334155;
             --tab-bg: #0f172a;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, sans-serif; }
-        body { background-color: var(--bg-light); color: var(--text-main); padding: 40px 20px; display: flex; justify-content: center; }
-        .app-container { width: 100%; max-width: 850px; background: var(--card-bg); border-radius: 20px; padding: 40px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid var(--border); position: relative; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, 
+
+sans-serif; }
+        body { background-color: var(--bg-light); color: var(--text-main); padding: 40px 20px; 
+
+display: flex; justify-content: center; }
+        .app-container { width: 100%; max-width: 850px; background: var(--card-bg); border-radius: 
+
+20px; padding: 40px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid var(--border); 
+
+position: relative; }
         
-        .header-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+        .header-row { display: flex; justify-content: space-between; align-items: flex-start; margin-
+
+bottom: 6px; }
         h1 { font-weight: 800; font-size: 2.2rem; letter-spacing: -0.5px; }
-        .subtitle { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 30px; font-weight: 500; }
+        .subtitle { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 30px; font-weight: 
+
+500; }
         
-        .theme-toggle { background: var(--tab-bg); border: 1px solid var(--border); color: var(--text-main); padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.85rem; }
+        .theme-toggle { background: var(--tab-bg); border: 1px solid var(--border); color: var(--text-
+
+main); padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 
+
+0.85rem; }
         
-        .tabs { display: flex; gap: 12px; margin-bottom: 30px; background: var(--tab-bg); padding: 6px; border-radius: 12px; }
-        .tab-btn { flex: 1; background: none; border: none; color: var(--text-muted); font-weight: 600; padding: 12px; cursor: pointer; font-size: 1rem; border-radius: 8px; }
-        .tab-btn.active { background: var(--card-bg); color: var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1px solid var(--border); }
+        .tabs { display: flex; gap: 12px; margin-bottom: 30px; background: var(--tab-bg); padding: 
+
+6px; border-radius: 12px; }
+        .tab-btn { flex: 1; background: none; border: none; color: var(--text-muted); font-weight: 
+
+600; padding: 12px; cursor: pointer; font-size: 1rem; border-radius: 8px; }
+        .tab-btn.active { background: var(--card-bg); color: var(--accent); box-shadow: 0 4px 12px 
+
+rgba(0,0,0,0.06); border: 1px solid var(--border); }
         
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         
         .form-group { margin-bottom: 24px; position: relative; }
-        label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.5px; }
-        input, select { width: 100%; padding: 14px 16px; background: var(--card-bg); border: 2px solid var(--border); border-radius: 10px; color: var(--text-main); font-size: 1rem; font-weight: 500; }
+        label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; letter-
+
+spacing: 0.5px; }
+        input, select { width: 100%; padding: 14px 16px; background: var(--card-bg); border: 2px 
+
+solid var(--border); border-radius: 10px; color: var(--text-main); font-size: 1rem; font-weight: 
+
+500; }
         input:focus, select:focus { border-color: var(--accent); outline: none; }
         
-        .suggestions-box { position: absolute; top: 100%; left: 0; right: 0; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; z-index: 10; max-height: 150px; overflow-y: auto; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: none; }
+        .suggestions-box { position: absolute; top: 100%; left: 0; right: 0; background: var(--card-
+
+bg); border: 1px solid var(--border); border-radius: 10px; z-index: 10; max-height: 150px; 
+
+overflow-y: auto; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: none; }
         .suggestion-item { padding: 12px 16px; cursor: pointer; font-weight: 500; }
         .suggestion-item:hover { background: var(--tab-bg); color: var(--accent); }
         
-        .months-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 8px; }
+        .months-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 
+
+8px; }
         @media(max-width: 500px) { .months-grid { grid-template-columns: repeat(2, 1fr); } }
         .month-checkbox { display: none; }
-        .month-label { display: block; text-align: center; padding: 12px; background: var(--tab-bg); border: 2px solid var(--border); border-radius: 10px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.2s ease; }
-        .month-checkbox:checked + .month-label { background: var(--accent); color: white; border-color: var(--accent); box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25); }
+        .month-label { display: block; text-align: center; padding: 12px; background: var(--tab-bg); 
+
+border: 2px solid var(--border); border-radius: 10px; font-weight: 600; font-size: 0.9rem; cursor: 
+
+pointer; transition: all 0.2s ease; }
+        .month-checkbox:checked + .month-label { background: var(--accent); color: white; border-
+
+color: var(--accent); box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25); }
         
-        .btn-submit { width: 100%; background: var(--accent); color: white; font-weight: 700; padding: 16px; border: none; border-radius: 10px; font-size: 1rem; cursor: pointer; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2); }
+        .btn-submit { width: 100%; background: var(--accent); color: white; font-weight: 700; 
+
+padding: 16px; border: none; border-radius: 10px; font-size: 1rem; cursor: pointer; box-shadow: 
+
+0 4px 12px rgba(79, 70, 229, 0.2); }
         
-        .revenue-card { background: var(--tab-bg); border-radius: 14px; padding: 25px; text-align: center; margin-bottom: 20px; border: 1px solid var(--border); }
+        .revenue-card { background: var(--tab-bg); border-radius: 14px; padding: 25px; text-align: 
+
+center; margin-bottom: 20px; border: 1px solid var(--border); }
         .revenue-card p { font-size: 0.85rem; color: var(--text-muted); font-weight: 700; }
-        .revenue-card h2 { font-size: 2.5rem; color: var(--accent); font-weight: 800; margin-top: 6px; }
+        .revenue-card h2 { font-size: 2.5rem; color: var(--accent); font-weight: 800; margin-top: 
+
+6px; }
         
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th { text-align: left; padding: 14px; font-size: 0.85rem; color: var(--text-muted); font-weight: 700; border-bottom: 2px solid var(--border); }
-        td { padding: 16px 14px; border-bottom: 1px solid var(--border); font-size: 1rem; vertical-align: middle; }
+        th { text-align: left; padding: 14px; font-size: 0.85rem; color: var(--text-muted); font-weight: 
+
+700; border-bottom: 2px solid var(--border); }
+        td { padding: 16px 14px; border-bottom: 1px solid var(--border); font-size: 1rem; vertical-
+
+align: middle; }
         .action-cell { display: flex; gap: 12px; align-items: center; }
-        .btn-delete { background: none; border: none; color: var(--danger); cursor: pointer; font-weight: 700; font-size: 0.9rem; }
-        .btn-pdf { background: none; border: none; color: var(--accent); cursor: pointer; font-weight: 700; font-size: 0.9rem; }
+        .btn-delete { background: none; border: none; color: var(--danger); cursor: pointer; font-
+
+weight: 700; font-size: 0.9rem; }
+        .btn-pdf { background: none; border: none; color: var(--accent); cursor: pointer; font-
+
+weight: 700; font-size: 0.9rem; }
         .btn-pdf:hover { text-decoration: underline; }
         
-        .util-box { background: var(--tab-bg); border: 1px solid var(--border); padding: 20px; border-radius: 12px; margin-top: 30px; display: flex; flex-wrap: wrap; gap: 15px; justify-content: space-between; align-items: center; }
-        .util-btn { background: var(--card-bg); border: 1px solid var(--border); color: var(--text-main); padding: 10px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.9rem; }
+        .util-box { background: var(--tab-bg); border: 1px solid var(--border); padding: 20px; 
+
+border-radius: 12px; margin-top: 30px; display: flex; flex-wrap: wrap; gap: 15px; justify-content: 
+
+space-between; align-items: center; }
+        .util-btn { background: var(--card-bg); border: 1px solid var(--border); color: var(--text-
+
+main); padding: 10px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 
+
+0.9rem; }
         
-        .pin-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-light); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .pin-container { background: var(--card-bg); border: 1px solid var(--border); padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; max-width: 350px; width: 90%; }
-        .pin-input { font-size: 2rem; letter-spacing: 15px; text-align: center; width: 160px; margin: 20px auto; padding: 10px; border: 2px solid var(--border); border-radius: 10px; font-family: monospace; }
+        .pin-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--
+
+bg-light); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-
+
+content: center; }
+        .pin-container { background: var(--card-bg); border: 1px solid var(--border); padding: 40px; 
+
+border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; max-width: 
+
+350px; width: 90%; }
+        .pin-input { font-size: 2rem; letter-spacing: 15px; text-align: center; width: 160px; margin: 
+
+20px auto; padding: 10px; border: 2px solid var(--border); border-radius: 10px; font-family: 
+
+monospace; }
 
         /* RECEIPT PRINT CARD CONTAINER STYLE */
-        #invoicePrintArea { display: none; background: #ffffff !important; color: #1e293b !important; padding: 40px; width: 100%; max-width: 600px; margin: 0 auto; border: 1px solid #cbd5e1; border-radius: 12px; }
-        .inv-header { display: flex; justify-content: space-between; border-bottom: 3px solid #4f46e5; padding-bottom: 20px; margin-bottom: 25px; }
-        .inv-meta-table { width: 100%; margin-bottom: 25px; border-collapse: collapse; }
-        .inv-meta-table td { padding: 14px 0; border-bottom: 1px solid #e2e8f0; color: #1e293b !important; font-size: 16px; }
-        .inv-total-box { background: #f8fafc !important; border: 1px solid #e2e8f0; padding: 20px; text-align: right; border-radius: 10px; }
+        #invoicePrintArea { display: none; background: #ffffff !important; color: #1e293b !
 
-        /* 🔥 CRITICAL CSS: NATIVE PRINTER ENGINE DIRECTIVES */
+important; padding: 40px; width: 100%; max-width: 600px; margin: 0 auto; border: 1px solid 
+
+#cbd5e1; border-radius: 12px; }
+        .inv-header { display: flex; justify-content: space-between; border-bottom: 3px solid 
+
+#4f46e5; padding-bottom: 20px; margin-bottom: 25px; }
+        .inv-meta-table { width: 100%; margin-bottom: 25px; border-collapse: collapse; }
+        .inv-meta-table td { padding: 14px 0; border-bottom: 1px solid #e2e8f0; color: #1e293b !
+
+important; font-size: 16px; }
+        .inv-total-box { background: #f8fafc !important; border: 1px solid #e2e8f0; padding: 20px; 
+
+text-align: right; border-radius: 10px; }
+
+        /* PRINTER ENGINE CSS VIEWPORTS */
         @media print {
-            body { background: white !important; color: black !important; padding: 0 !important; margin: 0 !important; }
-            .app-container, .pin-overlay, .tabs, .theme-toggle { display: none !important; } /* Hide entire app layout structure */
-            #invoicePrintArea { display: block !important; border: none !important; box-shadow: none !important; margin: 0 !important; padding: 20px !important; width: 100% !important; max-width: 100% !important; }
+            body { background: white !important; color: black !important; padding: 0 !important; 
+
+margin: 0 !important; }
+            .app-container, .pin-overlay, .tabs, .theme-toggle { display: none !important; }
+            #invoicePrintArea { display: block !important; border: none !important; box-shadow: 
+
+none !important; margin: 0 !important; padding: 20px !important; width: 100% !important; 
+
+max-width: 100% !important; }
             @page { size: auto; margin: 15mm; }
         }
     </style>
@@ -101,42 +195,74 @@
 <div id="invoicePrintArea">
     <div class="inv-header">
         <div>
-            <h1 style="color: #4f46e5 !important; font-size: 2rem; font-weight: 800; margin-bottom: 4px;">TUITION RECEIPT</h1>
-            <p style="color: #64748b !important; font-size: 0.95rem; font-weight: 600;">Official Payment Statement</p>
+            <h1 style="color: #4f46e5 !important; font-size: 2rem; font-weight: 800; margin-bottom: 
+
+4px;">TUITION RECEIPT</h1>
+            <p style="color: #64748b !important; font-size: 0.95rem; font-weight: 600;">Official 
+
+Payment Statement</p>
         </div>
         <div style="text-align: right;">
-            <h3 style="font-weight: 700; font-size: 1.2rem; color: #1e293b !important;" id="pdfInvoiceId">#INV-0000</h3>
-            <p style="color: #64748b !important; font-size: 0.85rem;" id="pdfCurrentDate">Date: --/--/----</p>
+            <h3 style="font-weight: 700; font-size: 1.2rem; color: #1e293b !important;" 
+
+id="pdfInvoiceId">#INV-0000</h3>
+            <p style="color: #64748b !important; font-size: 0.85rem;" id="pdfCurrentDate">Date: 
+
+--/--/----</p>
         </div>
     </div>
     <table class="inv-meta-table">
-        <tr><td style="font-weight: 700; color: #1e293b !important; width: 40%;">Student Name:</td><td id="pdfStudentName" style="color: #1e293b !important;">---</td></tr>
-        <tr><td style="font-weight: 700; color: #1e293b !important;">Contact Number:</td><td id="pdfStudentPhone" style="color: #1e293b !important;">---</td></tr>
-        <tr><td style="font-weight: 700; color: #1e293b !important;">Allocation Month:</td><td id="pdfFeeMonth" style="font-weight: 700; color: #4f46e5 !important;">---</td></tr>
-        <tr><td style="font-weight: 700; color: #1e293b !important;">Payment Status:</td><td style="font-weight: 700; color: #059669 !important;">✓ PAID / SUCCESSFUL</td></tr>
+        <tr><td style="font-weight: 700; color: #1e293b !important; width: 40%;">Student 
+
+Name:</td><td id="pdfStudentName" style="color: #1e293b !important;">---</td></tr>
+        <tr><td style="font-weight: 700; color: #1e293b !important;">Contact Number:</td><td 
+
+id="pdfStudentPhone" style="color: #1e293b !important;">---</td></tr>
+        <tr><td style="font-weight: 700; color: #1e293b !important;">Months Covered:</td><td 
+
+id="pdfFeeMonth" style="font-weight: 700; color: #4f46e5 !important;">---</td></tr>
+        <tr><td style="font-weight: 700; color: #1e293b !important;">Payment Status:</td><td 
+
+style="font-weight: 700; color: #059669 !important;">✓ PAID / SUCCESSFUL</td></tr>
     </table>
     <div class="inv-total-box">
-        <p style="font-size: 0.85rem; color: #64748b !important; font-weight: 700;">TOTAL AMOUNT PAID</p>
-        <h2 style="font-size: 2.2rem; color: #4f46e5 !important; font-weight: 800; margin-top: 4px;" id="pdfTotalAmount">Rs. 0.00</h2>
+        <p style="font-size: 0.85rem; color: #64748b !important; font-weight: 700;">TOTAL 
+
+AMOUNT PAID</p>
+        <h2 style="font-size: 2.2rem; color: #4f46e5 !important; font-weight: 800; margin-top: 
+
+4px;" id="pdfTotalAmount">Rs. 0.00</h2>
     </div>
-    <div style="margin-top: 60px; text-align: center; border-top: 1px dashed #cbd5e1; padding-top: 20px;"><p style="font-size: 0.85rem; color: #94a3b8 !important;">Thank you for your payment!</p></div>
+    <div style="margin-top: 60px; text-align: center; border-top: 1px dashed #cbd5e1; padding-
+
+top: 20px;"><p style="font-size: 0.85rem; color: #94a3b8 !important;">Thank you for your 
+
+payment!</p></div>
 </div>
 
 <div id="pinOverlay" class="pin-overlay" style="display: none;">
     <div class="pin-container">
         <h2 style="font-weight: 800; margin-bottom: 10px;">Security Lock</h2>
-        <p style="color: var(--text-muted); font-size: 0.9rem;">Enter your 4-digit PIN to access the Ledger.</p>
-        <input type="password" id="pinField" class="pin-input" maxlength="4" placeholder="••••" oninput="checkPINInput()">
-        <button class="util-btn" style="width: 100%; margin-top: 10px;" onclick="resetPINSetup()">Reset PIN</button>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Enter your 4-digit PIN to access the 
+
+Ledger.</p>
+        <input type="password" id="pinField" class="pin-input" maxlength="4" placeholder="••••" 
+
+oninput="checkPINInput()">
+        <button class="util-btn" style="width: 100%; margin-top: 10px;" onclick="resetPINSetup
+
+()">Reset PIN</button>
     </div>
 </div>
 
 <div class="app-container">
     <div class="header-row">
         <h1>Tuition Fee Manager</h1>
-        <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙 Dark Mode</button>
+        <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙 Dark 
+
+Mode</button>
     </div>
-    <div class="subtitle">Secure, offline ledger engine with native device print.</div>
+    <div class="subtitle">Secure, offline ledger engine with smart combined invoices.</div>
     
     <div class="tabs">
         <button class="tab-btn active" onclick="switchTab('entry-tab')">Add Payment</button>
@@ -147,7 +273,9 @@
         <form id="feeForm" onsubmit="saveRecord(event)">
             <div class="form-group">
                 <label>STUDENT NAME</label>
-                <input type="text" id="studentName" placeholder="Type student name..." autocomplete="off" oninput="handleNameInput()" required>
+                <input type="text" id="studentName" placeholder="Type student name..." 
+
+autocomplete="off" oninput="handleNameInput()" required>
                 <div id="suggestions" class="suggestions-box"></div>
             </div>
             <div class="form-group">
@@ -155,7 +283,7 @@
                 <input type="tel" id="studentPhone" placeholder="e.g. 919876543210" required>
             </div>
             <div class="form-group">
-                <label>SELECT TARGET MONTHS</label>
+                <label>SELECT TARGET MONTHS (Select Multiple if Needed)</label>
                 <div id="monthsContainer" class="months-grid"></div>
             </div>
             <div class="form-group">
@@ -192,25 +320,37 @@
                 </thead>
                 <tbody id="ledgerTableBody"></tbody>
             </table>
-            <div id="emptyMessage" style="text-align: center; padding: 40px 0; color: var(--text-muted);">No payment records saved yet.</div>
+            <div id="emptyMessage" style="text-align: center; padding: 40px 0; color: var(--text-
+
+muted);">No payment records saved yet.</div>
         </div>
 
         <div class="util-box">
             <div>
                 <h4 style="font-weight: 700; font-size: 0.95rem;">Database Tools</h4>
-                <p style="color: var(--text-muted); font-size: 0.8rem;">Backup or restore your local ledger history data file.</p>
+                <p style="color: var(--text-muted); font-size: 0.8rem;">Backup or restore your local 
+
+ledger history data file.</p>
             </div>
             <div style="display: flex; gap: 10px;">
                 <button class="util-btn" onclick="exportBackup()">📥 Export Backup</button>
-                <button class="util-btn" onclick="document.getElementById('importFile').click()">📤 Restore</button>
-                <input type="file" id="importFile" style="display: none;" onchange="importBackup(event)" accept=".json">
+                <button class="util-btn" onclick="document.getElementById('importFile').click()">📤 
+
+Restore</button>
+                <input type="file" id="importFile" style="display: none;" onchange="importBackup
+
+(event)" accept=".json">
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    const months = 
+
+["January","February","March","April","May","June","July","August","September","October","Novemb
+
+er","December"];
     
     window.onload = function() {
         initTheme();
@@ -227,7 +367,9 @@
             const isCurrent = idx === currentMonthIdx ? 'checked' : '';
             container.innerHTML += 
                 '<div>' +
-                    '<input type="checkbox" id="m_'+m+'" class="month-checkbox" value="' + m + '" ' + isCurrent + '>' +
+                    '<input type="checkbox" id="m_'+m+'" class="month-checkbox" value="' + m + '" ' + 
+
+isCurrent + '>' +
                     '<label for="m_'+m+'" class="month-label">' + m + '</label>' +
                 '</div>';
         });
@@ -249,7 +391,9 @@
     }
 
     function checkPINInput() {
-        if (document.getElementById('pinField').value === localStorage.getItem('tuition_secure_pin')) {
+        if (document.getElementById('pinField').value === localStorage.getItem
+
+('tuition_secure_pin')) {
             document.getElementById('pinOverlay').style.display = 'none';
             document.getElementById('pinField').value = '';
         }
@@ -265,7 +409,9 @@
     function initTheme() {
         const activeTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', activeTheme);
-        document.getElementById('themeBtn').innerText = activeTheme === 'dark' ? "☀️ Light Mode" : "🌙 Dark Mode";
+        document.getElementById('themeBtn').innerText = activeTheme === 'dark' ? "☀️ Light 
+
+Mode" : "🌙 Dark Mode";
     }
 
     function toggleTheme() {
@@ -273,7 +419,9 @@
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
-        document.getElementById('themeBtn').innerText = newTheme === 'dark' ? "☀️ Light Mode" : "🌙 Dark Mode";
+        document.getElementById('themeBtn').innerText = newTheme === 'dark' ? "☀️ Light Mode" 
+
+: "🌙 Dark Mode";
     }
 
     function handleNameInput() {
@@ -284,8 +432,12 @@
         if (!nameVal) { suggBox.style.display = 'none'; return; }
         
         const studentMap = {};
-        records.forEach(r => { if(r.phone) studentMap[r.name.toLowerCase()] = { name: r.name, phone: r.phone }; });
-        const matches = Object.values(studentMap).filter(s => s.name.toLowerCase().includes(nameVal.toLowerCase()));
+        records.forEach(r => { if(r.phone) studentMap[r.name.toLowerCase()] = { name: r.name, 
+
+phone: r.phone }; });
+        const matches = Object.values(studentMap).filter(s => s.name.toLowerCase().includes
+
+(nameVal.toLowerCase()));
         
         if (matches.length > 0) {
             suggBox.innerHTML = '';
@@ -325,19 +477,32 @@
         if(!name || isNaN(totalAmount) || !phone) return;
 
         const now = new Date();
-        const formattedDate = now.toLocaleDateString('en-GB') + ' ' + now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        const formattedDate = now.toLocaleDateString('en-GB') + ' ' + now.toLocaleTimeString([], 
+
+{hour: '2-digit', minute:'2-digit'});
         const records = JSON.parse(localStorage.getItem('tuition_records')) || [];
         
         const splitAmount = totalAmount / selectedMonths.length;
+        
+        // Use a shared custom Batch Key linking entries typed together
+        const batchKey = Date.now();
 
         selectedMonths.forEach(m => {
-            records.push({ id: Date.now() + Math.random(), name, phone, month: m, amount: splitAmount, date: formattedDate });
+            records.push({ id: Date.now() + Math.random(), batch: batchKey, name, phone, month: 
+
+m, amount: splitAmount, date: formattedDate });
         });
         localStorage.setItem('tuition_records', JSON.stringify(records));
 
         const monthsString = selectedMonths.join(', ');
-        const message = `Hello *${name}*,%0A%0A🎉 *Tuition Fee Received Successfully!*%0A%0A📅 *Months Covered:* ${monthsString}%0A💰 *Total Amount:* Rs. ${totalAmount.toFixed(2)} _(Rs. ${splitAmount.toFixed(2)} per month)_%0A⏱️ *Paid On:* ${formattedDate}%0A%0AThank you!`;
-        window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${message}`, '_blank');
+        const message = `Hello *${name}*,%0A%0A🎉 *Tuition Fee Received Successfully!*%0A%0A📅 
+
+*Months Covered:* ${monthsString}%0A💰 *Total Amount:* Rs. ${totalAmount.toFixed(2)} _(Rs. 
+
+${splitAmount.toFixed(2)} per month)_%0A⏱️ *Paid On:* ${formattedDate}%0A%0AThank you!`;
+        window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${message}`, 
+
+'_blank');
 
         document.getElementById('studentName').value = '';
         document.getElementById('feeAmount').value = '';
@@ -366,11 +531,15 @@
         const currentFilter = document.getElementById('studentFilter').value;
         
         tbody.innerHTML = '';
-        let filtered = currentFilter === "ALL" ? records : records.filter(r => r.name === currentFilter);
+        let filtered = currentFilter === "ALL" ? records : records.filter(r => r.name === 
+
+currentFilter);
         
-        if(filtered.length === 0) { emptyMsg.style.display = 'block'; totalHeader.innerText = "Rs. 0.00"; return; }
+        if(filtered.length === 0) { emptyMsg.style.display = 'block'; totalHeader.innerText = "Rs. 
+
+0.00"; return; }
         emptyMsg.style.display = 'none';
-        filtered.sort((a,b) => a.name.localeCompare(b.name));
+        filtered.sort((a,b) => b.id - a.id); // Show most recent additions at the top
 
         let grandTotal = 0;
         filtered.forEach(r => {
@@ -378,29 +547,60 @@
             let row = document.createElement('tr');
             row.innerHTML = '<td style="font-weight:600;">'+r.name+'</td>'+
                             '<td>'+r.month+'</td>'+
-                            '<td style="font-weight:700; color:var(--success);">Rs. '+r.amount.toFixed(2)+'</td>'+
-                            '<td style="font-size:0.85rem; color:var(--text-muted);">'+(r.date || 'N/A')+'</td>'+
-                            '<td><div class="action-cell"><button class="btn-pdf" onclick="launchNativePrint('+r.id+')">📄 Invoice</button><button class="btn-delete" onclick="deleteRecord('+r.id+')">Remove</button></div></td>';
+                            '<td style="font-weight:700; color:var(--success);">Rs. '+r.amount.toFixed
+
+(2)+'</td>'+
+                            '<td style="font-size:0.85rem; color:var(--text-muted);">'+(r.date || 
+
+'N/A')+'</td>'+
+                            '<td><div class="action-cell"><button class="btn-pdf" 
+
+onclick="launchNativePrint('+r.id+')">📄 Invoice</button><button class="btn-delete" 
+
+onclick="deleteRecord('+r.id+')">Remove</button></div></td>';
             tbody.appendChild(row);
         });
         totalHeader.innerText = "Rs. " + grandTotal.toFixed(2);
     }
 
-    // 🔥 FIXED ENTIRE SYSTEM CLIPPING ISSUE VIA NATIVE DEVICE PRINT ARTIFACT WINDOWS
+    // 🔥 SMART COMBINING INVOICE ENGINE
     function launchNativePrint(recordId) {
         const records = JSON.parse(localStorage.getItem('tuition_records')) || [];
         const match = records.find(r => r.id === recordId);
         if(!match) return;
         
-        // Dynamically insert into our print-isolated window template
-        document.getElementById('pdfInvoiceId').innerText = "#INV-" + Math.floor(1000 + Math.random() * 9000);
-        document.getElementById('pdfCurrentDate').innerText = "Issued: " + (match.date ? match.date.split(' ')[0] : 'N/A');
-        document.getElementById('pdfStudentName').innerText = match.name;
-        document.getElementById('pdfStudentPhone').innerText = match.phone ? "+" + match.phone : "N/A";
-        document.getElementById('pdfFeeMonth').innerText = match.month;
-        document.getElementById('pdfTotalAmount').innerText = "Rs. " + match.amount.toFixed(2);
+        let combinedMonths = match.month;
+        let totalBillAmount = match.amount;
         
-        // Command device software hardware stack to issue layout prints instantly
+        // If this entry was created as part of a bulk payment, find its matching pairs
+        if (match.batch) {
+            const sisterRecords = records.filter(r => r.batch === match.batch && r.name === 
+
+match.name);
+            if (sisterRecords.length > 1) {
+                // Combine names of all checked months neatly (e.g., "May, June, July")
+                combinedMonths = sisterRecords.map(r => r.month).join(', ');
+                // Add all split figures together to show the full lump sum paid
+                totalBillAmount = sisterRecords.reduce((sum, r) => sum + r.amount, 0);
+            }
+        }
+        
+        // Dynamically populating printable card elements
+        document.getElementById('pdfInvoiceId').innerText = "#INV-" + Math.floor(1000 + 
+
+Math.random() * 9000);
+        document.getElementById('pdfCurrentDate').innerText = "Issued: " + (match.date ? 
+
+match.date.split(' ')[0] : 'N/A');
+        document.getElementById('pdfStudentName').innerText = match.name;
+        document.getElementById('pdfStudentPhone').innerText = match.phone ? "+" + 
+
+match.phone : "N/A";
+        document.getElementById('pdfFeeMonth').innerText = combinedMonths;
+        document.getElementById('pdfTotalAmount').innerText = "Rs. " + totalBillAmount.toFixed
+
+(2);
+        
         window.print();
     }
 
