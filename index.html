@@ -1,12 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tuition Ledger Master</title>
     <link rel="apple-touch-icon" href="https://i.ibb.co/xSTxHx6v/249e85c5-32e6-4e8a-87ab-cb94c1b686de.jpg"er="0">
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <style>
         :root {
@@ -29,7 +27,7 @@
             --border: #334155;
             --tab-bg: #0f172a;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, sans-serif; transition: background-color 0.2s, border-color 0.2s; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, sans-serif; }
         body { background-color: var(--bg-light); color: var(--text-main); padding: 40px 20px; display: flex; justify-content: center; }
         .app-container { width: 100%; max-width: 850px; background: var(--card-bg); border-radius: 20px; padding: 40px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid var(--border); position: relative; }
         
@@ -62,7 +60,6 @@
         .month-checkbox:checked + .month-label { background: var(--accent); color: white; border-color: var(--accent); box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25); }
         
         .btn-submit { width: 100%; background: var(--accent); color: white; font-weight: 700; padding: 16px; border: none; border-radius: 10px; font-size: 1rem; cursor: pointer; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2); }
-        .btn-submit:hover { background: var(--accent-hover); }
         
         .revenue-card { background: var(--tab-bg); border-radius: 14px; padding: 25px; text-align: center; margin-bottom: 20px; border: 1px solid var(--border); }
         .revenue-card p { font-size: 0.85rem; color: var(--text-muted); font-weight: 700; }
@@ -78,47 +75,51 @@
         
         .util-box { background: var(--tab-bg); border: 1px solid var(--border); padding: 20px; border-radius: 12px; margin-top: 30px; display: flex; flex-wrap: wrap; gap: 15px; justify-content: space-between; align-items: center; }
         .util-btn { background: var(--card-bg); border: 1px solid var(--border); color: var(--text-main); padding: 10px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.9rem; }
-        .util-btn:hover { border-color: var(--accent); }
         
         .pin-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-light); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .pin-container { background: var(--card-bg); border: 1px solid var(--border); padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; max-width: 350px; width: 90%; }
         .pin-input { font-size: 2rem; letter-spacing: 15px; text-align: center; width: 160px; margin: 20px auto; padding: 10px; border: 2px solid var(--border); border-radius: 10px; font-family: monospace; }
 
-        /* FIXED: Invoice container configuration optimized to prevent screen cropping */
-        #invoiceRenderWrapper { position: absolute; top: -9999px; left: -9999px; width: 100%; overflow: hidden; }
-        #invoiceRenderCanvas { background: #ffffff !important; color: #1e293b !important; padding: 40px; width: 680px; box-sizing: border-box; }
+        /* RECEIPT PRINT CARD CONTAINER STYLE */
+        #invoicePrintArea { display: none; background: #ffffff !important; color: #1e293b !important; padding: 40px; width: 100%; max-width: 600px; margin: 0 auto; border: 1px solid #cbd5e1; border-radius: 12px; }
         .inv-header { display: flex; justify-content: space-between; border-bottom: 3px solid #4f46e5; padding-bottom: 20px; margin-bottom: 25px; }
         .inv-meta-table { width: 100%; margin-bottom: 25px; border-collapse: collapse; }
-        .inv-meta-table td { padding: 12px 0; border-bottom: 1px solid #e2e8f0; color: #1e293b !important; font-size: 16px; text-align: left; background: none !important; }
-        .inv-total-box { background: #f8fafc !important; border: 1px solid #e2e8f0; padding: 20px; text-align: right; border-radius: 10px; margin-top: 20px; }
+        .inv-meta-table td { padding: 14px 0; border-bottom: 1px solid #e2e8f0; color: #1e293b !important; font-size: 16px; }
+        .inv-total-box { background: #f8fafc !important; border: 1px solid #e2e8f0; padding: 20px; text-align: right; border-radius: 10px; }
+
+        /* 🔥 CRITICAL CSS: NATIVE PRINTER ENGINE DIRECTIVES */
+        @media print {
+            body { background: white !important; color: black !important; padding: 0 !important; margin: 0 !important; }
+            .app-container, .pin-overlay, .tabs, .theme-toggle { display: none !important; } /* Hide entire app layout structure */
+            #invoicePrintArea { display: block !important; border: none !important; box-shadow: none !important; margin: 0 !important; padding: 20px !important; width: 100% !important; max-width: 100% !important; }
+            @page { size: auto; margin: 15mm; }
+        }
     </style>
 </head>
 <body>
 
-<div id="invoiceRenderWrapper">
-    <div id="invoiceRenderCanvas">
-        <div class="inv-header">
-            <div>
-                <h1 style="color: #4f46e5 !important; font-size: 2rem; font-weight: 800; margin-bottom: 4px;">TUITION RECEIPT</h1>
-                <p style="color: #64748b; font-size: 0.95rem; font-weight: 600;">Official Payment Statement</p>
-            </div>
-            <div style="text-align: right;">
-                <h3 style="font-weight: 700; font-size: 1.2rem; color: #1e293b;" id="pdfInvoiceId">#INV-0000</h3>
-                <p style="color: #64748b; font-size: 0.85rem;" id="pdfCurrentDate">Date: --/--/----</p>
-            </div>
+<div id="invoicePrintArea">
+    <div class="inv-header">
+        <div>
+            <h1 style="color: #4f46e5 !important; font-size: 2rem; font-weight: 800; margin-bottom: 4px;">TUITION RECEIPT</h1>
+            <p style="color: #64748b !important; font-size: 0.95rem; font-weight: 600;">Official Payment Statement</p>
         </div>
-        <table class="inv-meta-table">
-            <tr><td style="font-weight: 700; color: #1e293b; width: 35%;">Student Name:</td><td id="pdfStudentName" style="color: #1e293b;">---</td></tr>
-            <tr><td style="font-weight: 700; color: #1e293b;">Contact Number:</td><td id="pdfStudentPhone" style="color: #1e293b;">---</td></tr>
-            <tr><td style="font-weight: 700; color: #1e293b;">Allocation Month:</td><td id="pdfFeeMonth" style="font-weight: 700; color: #4f46e5 !important;">---</td></tr>
-            <tr><td style="font-weight: 700; color: #1e293b;">Status:</td><td style="font-weight: 700; color: #059669 !important;">✓ PAID / SUCCESSFUL</td></tr>
-        </table>
-        <div class="inv-total-box">
-            <p style="font-size: 0.85rem; color: #64748b; font-weight: 700;">TOTAL AMOUNT PAID</p>
-            <h2 style="font-size: 2.2rem; color: #4f46e5 !important; font-weight: 800; margin-top: 4px;" id="pdfTotalAmount">Rs. 0.00</h2>
+        <div style="text-align: right;">
+            <h3 style="font-weight: 700; font-size: 1.2rem; color: #1e293b !important;" id="pdfInvoiceId">#INV-0000</h3>
+            <p style="color: #64748b !important; font-size: 0.85rem;" id="pdfCurrentDate">Date: --/--/----</p>
         </div>
-        <div style="margin-top: 50px; text-align: center; border-top: 1px dashed #cbd5e1; padding-top: 20px;"><p style="font-size: 0.85rem; color: #94a3b8;">Thank you for your payment!</p></div>
     </div>
+    <table class="inv-meta-table">
+        <tr><td style="font-weight: 700; color: #1e293b !important; width: 40%;">Student Name:</td><td id="pdfStudentName" style="color: #1e293b !important;">---</td></tr>
+        <tr><td style="font-weight: 700; color: #1e293b !important;">Contact Number:</td><td id="pdfStudentPhone" style="color: #1e293b !important;">---</td></tr>
+        <tr><td style="font-weight: 700; color: #1e293b !important;">Allocation Month:</td><td id="pdfFeeMonth" style="font-weight: 700; color: #4f46e5 !important;">---</td></tr>
+        <tr><td style="font-weight: 700; color: #1e293b !important;">Payment Status:</td><td style="font-weight: 700; color: #059669 !important;">✓ PAID / SUCCESSFUL</td></tr>
+    </table>
+    <div class="inv-total-box">
+        <p style="font-size: 0.85rem; color: #64748b !important; font-weight: 700;">TOTAL AMOUNT PAID</p>
+        <h2 style="font-size: 2.2rem; color: #4f46e5 !important; font-weight: 800; margin-top: 4px;" id="pdfTotalAmount">Rs. 0.00</h2>
+    </div>
+    <div style="margin-top: 60px; text-align: center; border-top: 1px dashed #cbd5e1; padding-top: 20px;"><p style="font-size: 0.85rem; color: #94a3b8 !important;">Thank you for your payment!</p></div>
 </div>
 
 <div id="pinOverlay" class="pin-overlay" style="display: none;">
@@ -135,7 +136,7 @@
         <h1>Tuition Fee Manager</h1>
         <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙 Dark Mode</button>
     </div>
-    <div class="subtitle">Secure, offline ledger engine with smart bulk tools.</div>
+    <div class="subtitle">Secure, offline ledger engine with native device print.</div>
     
     <div class="tabs">
         <button class="tab-btn active" onclick="switchTab('entry-tab')">Add Payment</button>
@@ -379,18 +380,19 @@
                             '<td>'+r.month+'</td>'+
                             '<td style="font-weight:700; color:var(--success);">Rs. '+r.amount.toFixed(2)+'</td>'+
                             '<td style="font-size:0.85rem; color:var(--text-muted);">'+(r.date || 'N/A')+'</td>'+
-                            '<td><div class="action-cell"><button class="btn-pdf" onclick="generateInvoice('+r.id+')">📄 Invoice</button><button class="btn-delete" onclick="deleteRecord('+r.id+')">Remove</button></div></td>';
+                            '<td><div class="action-cell"><button class="btn-pdf" onclick="launchNativePrint('+r.id+')">📄 Invoice</button><button class="btn-delete" onclick="deleteRecord('+r.id+')">Remove</button></div></td>';
             tbody.appendChild(row);
         });
         totalHeader.innerText = "Rs. " + grandTotal.toFixed(2);
     }
 
-    // 🔥 BULLETPROOF EXPORT ENGINE: FIXED COLOURED WIDTH TO MATCH ALL PHONE RENDERS
-    function generateInvoice(recordId) {
+    // 🔥 FIXED ENTIRE SYSTEM CLIPPING ISSUE VIA NATIVE DEVICE PRINT ARTIFACT WINDOWS
+    function launchNativePrint(recordId) {
         const records = JSON.parse(localStorage.getItem('tuition_records')) || [];
         const match = records.find(r => r.id === recordId);
         if(!match) return;
         
+        // Dynamically insert into our print-isolated window template
         document.getElementById('pdfInvoiceId').innerText = "#INV-" + Math.floor(1000 + Math.random() * 9000);
         document.getElementById('pdfCurrentDate').innerText = "Issued: " + (match.date ? match.date.split(' ')[0] : 'N/A');
         document.getElementById('pdfStudentName').innerText = match.name;
@@ -398,18 +400,8 @@
         document.getElementById('pdfFeeMonth').innerText = match.month;
         document.getElementById('pdfTotalAmount').innerText = "Rs. " + match.amount.toFixed(2);
         
-        const targetElement = document.getElementById('invoiceRenderCanvas');
-        
-        const fileConfig = {
-            margin:       10,
-            filename:     `Receipt_${match.name.replace(/\s+/g, '_')}_${match.month}.pdf`,
-            image:        { type: 'jpeg', quality: 1.0 },
-            // This forces a wide desktop window container layout processing standard before compilation
-            html2canvas:  { scale: 2, logging: false, width: 680, windowWidth: 680 },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
-        
-        html2pdf().set(fileConfig).from(targetElement).save();
+        // Command device software hardware stack to issue layout prints instantly
+        window.print();
     }
 
     function deleteRecord(id) {
